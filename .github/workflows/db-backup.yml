@@ -1,0 +1,105 @@
+# Nightly encrypted backup of the Hamlaty database, kept 90 days as a private GitHub artifact.
+# Needs two repository secrets (Settings → Secrets and variables → Actions):
+#   SUPABASE_DB_URL     Supabase → Connect → "Session pooler" connection string, with the database password in it
+#   BACKUP_PASSPHRASE   a long password you keep yourself; without it the backup cannot be opened
+# Restore steps: docs/BACKUP.md
+name: Database backup
+
+on:
+  schedule:
+    - cron: "17 23 * * *" # 03:17 Oman time, every night
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+concurrency:
+  group: db-backup
+  cancel-in-progress: false
+
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Check secrets
+        id: check
+        env:
+          DB: ${{ secrets.SUPABASE_DB_URL }}
+          PASS: ${{ secrets.BACKUP_PASSPHRASE }}
+        run: |
+          if [ -z "$DB" ] && [ -z "$PASS" ]; then
+            # Not set up yet: skip quietly instead of failing every night.
+            echo "::notice::Backups are not set up yet. Add SUPABASE_DB_URL and BACKUP_PASSPHRASE in Settings → Secrets and variables → Actions."
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          if [ -z "$DB" ] || [ -z "$PASS" ]; then
+            echo "::error::Add both SUPABASE_DB_URL and BACKUP_PASSPHRASE in Settings → Secrets and variables → Actions."
+            exit 1
+          fi
+          if [ ${#PASS} -lt 16 ]; then
+            echo "::error::BACKUP_PASSPHRASE must be at least 16 characters."
+            exit 1
+          fi
+          # Shape of the database link, without the password (helps spot copy/paste mistakes).
+          python3 - <<'PY'
+          import os, sys, urllib.parse as u
+          db = os.environ["DB"]
+          r = u.urlsplit(db.strip())
+          pw = r.password or ""
+          print(f"scheme={r.scheme} user={r.username} host={r.hostname} port={r.port} db={r.path.lstrip('/')}")
+          print(f"password: {len(pw)} characters")
+          bad = []
+          if db != db.strip(): bad.append("spaces or a new line at the start or end")
+          if "YOUR-PASSWORD" in db: bad.append("[YOUR-PASSWORD] was not replaced")
+          if "[" in pw or "]" in pw: bad.append("the [ ] brackets are still around the password")
+          if " " in pw: bad.append("a space inside the password")
+          if db.count("@") != 1: bad.append("more than one @ (the password must not contain @)")
+          if r.username and "." not in r.username: bad.append("user must be postgres.<project-ref> for the Session pooler")
+          if r.port != 5432: bad.append("use the Session pooler (port 5432)")
+          for m in bad: print(f"::error::SUPABASE_DB_URL: {m}")
+          sys.exit(1 if bad else 0)
+          PY
+
+      - name: Install PostgreSQL 17 client
+        if: steps.check.outputs.skip != 'true'
+        run: |
+          sudo install -d /usr/share/postgresql-common/pgdg
+          sudo curl -fsSL -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc https://www.postgresql.org/media/keys/ACCC4CF8.asc
+          echo "deb [signed-by=/usr/share/postgresql-common/pgdg/apt.postgresql.org.asc] https://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" | sudo tee /etc/apt/sources.list.d/pgdg.list > /dev/null
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq postgresql-client-17
+          /usr/lib/postgresql/17/bin/pg_dump --version
+
+      - name: Dump and encrypt
+        if: steps.check.outputs.skip != 'true'
+        env:
+          DB: ${{ secrets.SUPABASE_DB_URL }}
+          PASS: ${{ secrets.BACKUP_PASSPHRASE }}
+        run: |
+          set -euo pipefail
+          umask 077
+          STAMP=$(date -u +%Y-%m-%d)
+          mkdir -p out
+          # Hamlaty's data (public), sign-in accounts (auth) and file records (storage). Files themselves are not included.
+          /usr/lib/postgresql/17/bin/pg_dump "$DB" --format=custom --no-owner --no-privileges \
+            --schema=public --schema=auth --schema=storage --file=out/hamlaty.dump
+          SIZE=$(stat -c %s out/hamlaty.dump)
+          if [ "$SIZE" -lt 10000 ]; then echo "::error::Backup is suspiciously small ($SIZE bytes)."; exit 1; fi
+          /usr/lib/postgresql/17/bin/pg_restore --list out/hamlaty.dump > /dev/null
+          gpg --batch --yes --pinentry-mode loopback --passphrase "$PASS" \
+            --symmetric --cipher-algo AES256 --output "out/hamlaty-$STAMP.dump.gpg" out/hamlaty.dump
+          rm out/hamlaty.dump
+          sha256sum "out/hamlaty-$STAMP.dump.gpg" > "out/hamlaty-$STAMP.sha256"
+          echo "Backup $STAMP: $(stat -c %s out/hamlaty-$STAMP.dump.gpg) bytes (encrypted)" >> "$GITHUB_STEP_SUMMARY"
+          echo "STAMP=$STAMP" >> "$GITHUB_ENV"
+
+      - name: Keep for 90 days
+        if: steps.check.outputs.skip != 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: hamlaty-db-${{ env.STAMP }}
+          path: out/
+          retention-days: 90
+          if-no-files-found: error
