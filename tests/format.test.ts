@@ -29,6 +29,9 @@ test("money in minor units", () => {
   assert.equal(money(125000, "USD", "ar"), "1,250.00 $");
   assert.equal(money(1500000, "IQD", "ar"), "1,500,000 د.ع");
   assert.equal(money(null), "—");
+  assert.equal(money(4500, "USD", "en"), "$45.00");
+  assert.equal(money(12500, "OMR", "ar"), "12.500 ر.ع");
+  assert.equal(money(12500, "OMR", "en"), "OMR 12.500");
 });
 
 test("distance to the shrine", () => {

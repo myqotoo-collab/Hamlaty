@@ -12,7 +12,7 @@ export interface Me {
   isAdmin: boolean;
 }
 
-type Need = "any" | "campaign" | "hotel" | "admin" | "no-org";
+type Need = "any" | "campaign" | "hotel" | "agency" | "admin" | "no-org";
 
 /**
  * Loads the signed-in user and their organisation, and sends them where they belong:
@@ -37,7 +37,7 @@ export function useMe(need: Need = "any") {
         if (need === "admin" && !value.isAdmin) return router.replace(homeFor(value));
         if (need !== "admin" && need !== "no-org" && !org) return router.replace("/onboarding");
         if (need === "no-org" && org) return router.replace(takeNext() ?? homeFor(value));
-        if ((need === "campaign" || need === "hotel") && org && org.kind !== need) return router.replace(homeFor(value));
+        if ((need === "campaign" || need === "hotel" || need === "agency") && org && org.kind !== need) return router.replace(homeFor(value));
         setMe(value);
       } catch (e) {
         if (!cancelled) setError((e as Error).message);
@@ -52,7 +52,7 @@ export function useMe(need: Need = "any") {
 }
 
 // Pages a signed-out visitor may be sent back to after signing in (links in SMS messages).
-const NEXT_OK = /^\/(campaign|hotel)\/[^/]/;
+const NEXT_OK = /^\/(campaign|hotel|agency)\/[^/]/;
 
 function rememberNext() {
   try {
@@ -74,7 +74,7 @@ export function takeNext(): string | null {
 
 export function homeFor(me: Pick<Me, "org" | "isAdmin">): string {
   if (!me.org) return me.isAdmin ? "/admin" : "/onboarding";
-  return me.org.kind === "hotel" ? "/hotel" : "/campaign";
+  return me.org.kind === "hotel" ? "/hotel" : me.org.kind === "agency" ? "/agency" : "/campaign";
 }
 
 /** The signed-in user with their organisation, or null when signed out. No redirects. */

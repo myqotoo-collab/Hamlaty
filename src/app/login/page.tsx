@@ -26,7 +26,7 @@ export default function Login() {
   useEffect(() => {
     const as = new URLSearchParams(window.location.search).get("as");
     try {
-      if (as === "campaign" || as === "hotel") sessionStorage.setItem("hamlaty-as", as);
+      if (as === "campaign" || as === "hotel" || as === "agency") sessionStorage.setItem("hamlaty-as", as);
     } catch {}
     // Hotels are in Iraq: start the country list there.
     if (as === "hotel") setCountry("IQ");

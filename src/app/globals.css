@@ -236,7 +236,7 @@ a.item:hover { border-color: var(--accent); }
 /* Product pictures */
 .pthumb { display: block; object-fit: contain; background: #fff; border: 1px solid var(--line); border-radius: 10px; flex: none; }
 td.money .pthumb { display: inline-block; vertical-align: middle; margin-inline-end: 6px; }
-.kind-pick { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.kind-pick { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; }
 .kind-card { display: grid; gap: 4px; padding: 14px; border: 1.5px solid var(--line); border-radius: 14px; cursor: pointer; background: var(--surface); }
 .kind-card input { position: absolute; opacity: 0; pointer-events: none; }
 .kind-card b { font-size: 17px; }
@@ -262,7 +262,7 @@ td.money .pthumb { display: inline-block; vertical-align: middle; margin-inline-
 .steps li { counter-increment: s; display: grid; grid-template-columns: 34px 1fr; gap: 10px; align-items: start; }
 .steps li::before { content: counter(s); width: 30px; height: 30px; border-radius: 50%; background: var(--accent-soft); color: var(--teal-ink); font-weight: 700; display: grid; place-items: center; font-family: var(--font-num); }
 .steps b { display: block; }
-.side-cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.side-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; }
 @media (max-width: 560px) { .side-cards { grid-template-columns: 1fr; } }
 .side-card { border: 1px solid var(--line); border-radius: var(--r); padding: 16px; display: grid; gap: 10px; align-content: start; background: var(--surface); }
 .side-card h2 { font-family: var(--font-display); font-size: 18px; }

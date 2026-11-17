@@ -17,6 +17,11 @@ export function supabase(): SupabaseClient {
 
 // Database messages (supabase/migrations) → a sentence people can act on.
 const MESSAGES: [RegExp, string, string][] = [
+  [/add at least one flight price/i, "أضف سعر رحلة واحدة على الأقل قبل الإرسال.", "Add at least one flight price before sending."],
+  [/office account is not active/i, "حساب المكتب قيد المراجعة من فريق حملتي.", "Your office account is still being reviewed by Hamlaty."],
+  [/flight in this offer is already booked/i, "هذه الرحلة محجوزة مسبقاً.", "This flight is already booked."],
+  [/only Hamlaty can record a payment/i, "تسجيل الدفع لفريق حملتي فقط.", "Only the Hamlaty team can record a payment."],
+  [/add at least one city or flight/i, "أضف مدينة أو رحلة طيران واحدة على الأقل.", "Add at least one city or flight."],
   [/only price stays in your city/i, "يمكنك تسعير الإقامة في مدينة فندقك فقط.", "You can only price the stay in your hotel's city."],
   [/add at least one room price/i, "أضف سعر غرفة واحدة على الأقل قبل الإرسال.", "Add at least one room price before sending."],
   [/complete your hotel profile/i, "أكمل ملف الفندق أولاً.", "Complete your hotel profile first."],

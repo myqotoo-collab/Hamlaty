@@ -99,7 +99,7 @@ export default function LegalHub() {
         <p className="muted">{t("كل الشروط والسياسات التي تنظم استخدام حملتي بين حملات الزيارة والفنادق، في مكان واحد.", "All the terms and policies for using Hamlaty between ziyarat campaigns and hotels, in one place.")}</p>
         <label className="legal-search" htmlFor="legal-q">
           <span className="sr-only">{t("ابحث في الوثائق", "Search the documents")}</span>
-          <input id="legal-q" type="search" value={q} onChange={(e) => setQ(e.target.value)} placeholder={t("ابحث: إلغاء، عمولة، بيانات…", "Search: cancellation, commission, data…")} />
+          <input id="legal-q" type="search" value={q} onChange={(e) => setQ(e.target.value)} placeholder={t("ابحث: إلغاء، رسوم، بيانات…", "Search: cancellation, fees, data…")} />
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" aria-hidden="true">
             <circle cx="11" cy="11" r="7" />
             <path d="M20 20l-4-4" />

@@ -1,6 +1,6 @@
 import type { Lang } from "./i18n";
 
-export type OrgKind = "campaign" | "hotel";
+export type OrgKind = "campaign" | "hotel" | "agency";
 
 export interface Org {
   id: string;
@@ -12,6 +12,16 @@ export interface Org {
   phone: string | null;
   cr_number: string | null;
   sms_notifications: boolean;
+}
+
+/** A flight booking office's profile: what Hamlaty checks before requests reach it. */
+export interface AgencyProfile {
+  org_id: string;
+  license_no: string | null;
+  countries: string[];
+  airlines: string | null;
+  about: string | null;
+  verified: boolean;
 }
 
 export type MealPlan = "room_only" | "breakfast" | "half_board" | "full_board";
@@ -95,7 +105,8 @@ const OFFER_STATUS: Record<string, [string, string]> = {
 export const offerStatus = (s: string, lang: Lang) => pick(OFFER_STATUS[s], lang, s);
 
 const BOOKING_STATUS: Record<string, [string, string]> = {
-  pending_hotel: ["بانتظار تأكيد الفندق", "Awaiting hotel confirmation"],
+  pending_hotel: ["بانتظار تأكيد الفندق أو المكتب", "Awaiting provider confirmation"],
+  awaiting_payment: ["بانتظار رسوم حملتي", "Awaiting Hamlaty fee"],
   confirmed: ["مؤكد", "Confirmed"],
   completed: ["مكتمل", "Completed"],
   cancelled: ["ملغى", "Cancelled"],

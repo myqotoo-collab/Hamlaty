@@ -12,11 +12,11 @@ export default function Home() {
     <Shell me={me} isPublic className="home-page">
       <section className="hero">
         <span className="eyebrow">{t("كربلاء · النجف · الكاظمية · سامراء", "Karbala · Najaf · Kadhimiya · Samarra")}</span>
-        <h1>{t("طلب واحد لحملتك، وعروض من عدة فنادق", "One request for your campaign, offers from several hotels")}</h1>
+        <h1>{t("طلب واحد لحملتك، وعروض من عدة فنادق ومكاتب طيران", "One request for your campaign, offers from several hotels and flight offices")}</h1>
         <p>
           {t(
-            "اكتب عدد الزوار والمدن والليالي، وتصلك عروض فنادق موثّقة بالمسافة إلى الحرم والسعر الكامل. قارن واحجز من مكان واحد.",
-            "Enter your pilgrims, cities and nights, and get offers from verified hotels with the distance to the shrine and the full price. Compare and book in one place.",
+            "اكتب عدد الزوار والمدن والليالي ورحلات الطيران، وتصلك عروض فنادق موثّقة بالمسافة إلى الحرم، وعروض مكاتب طيران بالسعر الكامل. قارن واحجز من مكان واحد، مجاناً.",
+            "Enter your pilgrims, cities, nights and flights, and get offers from verified hotels with the distance to the shrine, and flight offices with the full price. Compare and book in one place, for free.",
           )}
         </p>
         <div className="hero-cta">
@@ -65,11 +65,22 @@ export default function Home() {
           <h2>{t("للفندق", "For hotels")}</h2>
           <ul className="trust">
             <li>{t("طلبات مجموعات حقيقية من حملات الخليج ولبنان، تصلك على الجوال.", "Real group requests from Gulf and Lebanese campaigns, straight to your phone.")}</li>
-            <li>{t("التسجيل مجاني، وتدفع عمولة صغيرة فقط على الحجز المؤكد.", "Joining is free; you pay a small commission only on confirmed bookings.")}</li>
-            <li>{t("العمولة تقل كلما تكرر حجز الحملة نفسها عندك.", "The commission falls each time the same campaign books you again.")}</li>
+            <li>{t("التسجيل وإرسال العروض مجاناً. لا تدفع شيئاً مقدماً.", "Joining and sending offers are free. You pay nothing in advance.")}</li>
+            <li>{t("رسوم حملتي دولار واحد عن كل زائر، تُقتطع من العربون عند الحجز فقط.", "Hamlaty's fee is $1 per pilgrim, taken from the deposit only when a booking is made.")}</li>
           </ul>
           <Link href="/login?as=hotel" className="btn teal">
             {t("سجّل فندقك مجاناً", "List your hotel for free")}
+          </Link>
+        </div>
+        <div className="side-card">
+          <h2>{t("لمكاتب حجوزات الطيران", "For flight booking offices")}</h2>
+          <ul className="trust">
+            <li>{t("طلبات تذاكر مجموعات جاهزة: المسار والتاريخ وعدد المقاعد.", "Ready group ticket requests: route, dates and number of seats.")}</li>
+            <li>{t("التسجيل وإرسال العروض مجاناً. لا تدفع شيئاً مقدماً.", "Joining and sending offers are free. You pay nothing in advance.")}</li>
+            <li>{t("رسوم حملتي 3 دولارات عن كل تذكرة، تُقتطع من العربون عند الحجز فقط.", "Hamlaty's fee is $3 per ticket, taken from the deposit only when a booking is made.")}</li>
+          </ul>
+          <Link href="/login?as=agency" className="btn teal">
+            {t("سجّل مكتبك مجاناً", "List your office for free")}
           </Link>
         </div>
       </section>
@@ -77,7 +88,8 @@ export default function Home() {
       <section className="panel">
         <h2>{t("لماذا حملتي؟", "Why Hamlaty?")}</h2>
         <ul className="trust">
-          <li>{t("كل فندق يراجعه فريقنا: الصور، والمسافة الفعلية إلى الحرم.", "Our team checks every hotel: the photos and the real distance to the shrine.")}</li>
+          <li>{t("كل فندق ومكتب يراجعه فريقنا: الصور، والمسافة الفعلية إلى الحرم، وترخيص المكتب.", "Our team checks every hotel and office: the photos, the real distance to the shrine, and the office's licence.")}</li>
+          <li>{t("المنصة مجانية لمديري الحملات.", "The platform is free for campaign managers.")}</li>
           <li>{t("السعر الذي تراه هو الإجمالي، تحسبه المنصة من أسعار الغرف ولا يتغير بعد الإرسال.", "The price you see is the total, computed by the platform from room prices, and it can't change once sent.")}</li>
           <li>{t("رابط تسجيل لزوار حملتك، وقائمة غرفهم في مكان واحد.", "A sign-up link for your pilgrims, and their room list in one place.")}</li>
         </ul>

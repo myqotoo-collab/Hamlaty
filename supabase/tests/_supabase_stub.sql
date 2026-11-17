@@ -1,7 +1,7 @@
 -- Local stand-in for the parts of Supabase the migrations rely on, so the tests run on plain PostgreSQL.
 -- Never run this on the real Supabase project (it already has these).
 --   createdb hamlaty_test && psql -d hamlaty_test -f supabase/tests/_supabase_stub.sql \
---     -f supabase/migrations/0001_init.sql -f supabase/tests/rls_test.sql
+--     -f supabase/migrations/0001_init.sql -f supabase/migrations/0002_fees_and_flights.sql -f supabase/tests/rls_test.sql
 \set ON_ERROR_STOP 1
 do $$ begin
   if not exists (select 1 from pg_roles where rolname = 'anon') then create role anon nologin; end if;

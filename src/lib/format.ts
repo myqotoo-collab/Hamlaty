@@ -1,7 +1,7 @@
 import type { Lang } from "./i18n";
 
 /** Decimal places per currency. Amounts are stored in minor units: cents for USD, whole dinars for IQD. */
-export const CURRENCY_DECIMALS: Record<string, number> = { USD: 2, IQD: 0 };
+export const CURRENCY_DECIMALS: Record<string, number> = { USD: 2, IQD: 0, OMR: 3, KWD: 3, BHD: 3, SAR: 2, AED: 2, QAR: 2 };
 
 /** An amount in minor units, for display: "$1,250.00" / "1,500,000 د.ع". */
 export function money(minor: number | null | undefined, currency = "USD", lang: Lang = "ar"): string {
@@ -10,6 +10,8 @@ export function money(minor: number | null | undefined, currency = "USD", lang: 
   const n = (minor / 10 ** dp).toLocaleString("en-US", { minimumFractionDigits: dp, maximumFractionDigits: dp });
   if (currency === "USD") return lang === "ar" ? `${n} $` : `$${n}`;
   if (currency === "IQD") return lang === "ar" ? `${n} د.ع` : `IQD ${n}`;
+  const AR: Record<string, string> = { OMR: "ر.ع", KWD: "د.ك", BHD: "د.ب", SAR: "ر.س", AED: "د.إ", QAR: "ر.ق" };
+  if (AR[currency]) return lang === "ar" ? `${n} ${AR[currency]}` : `${currency} ${n}`;
   return `${currency} ${n}`;
 }
 

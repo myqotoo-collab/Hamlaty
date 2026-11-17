@@ -22,7 +22,7 @@ export default function Onboarding() {
   useEffect(() => {
     try {
       const as = sessionStorage.getItem("hamlaty-as");
-      if (as === "campaign" || as === "hotel") setKind(as);
+      if (as === "campaign" || as === "hotel" || as === "agency") setKind(as);
     } catch {}
   }, []);
 
@@ -37,18 +37,19 @@ export default function Onboarding() {
   async function submit(e: React.FormEvent) {
     e.preventDefault();
     setError(null);
-    if (!kind) return setError(t("اختر: هل أنت حملة أم فندق؟", "Choose: are you a campaign or a hotel?"));
-    if (name.trim().length < 2) return setError(kind === "hotel" ? t("اكتب اسم الفندق.", "Enter the hotel name.") : t("اكتب اسم الحملة.", "Enter the campaign name."));
+    if (!kind) return setError(t("اختر: حملة أم فندق أم مكتب طيران؟", "Choose: a campaign, a hotel or a flight office?"));
+    if (name.trim().length < 2)
+      return setError(kind === "hotel" ? t("اكتب اسم الفندق.", "Enter the hotel name.") : kind === "agency" ? t("اكتب اسم المكتب.", "Enter the office name.") : t("اكتب اسم الحملة.", "Enter the campaign name."));
     setBusy(true);
     const { error } = await supabase().rpc("create_my_organization", {
       p_kind: kind,
       p_name: name.trim(),
-      p_country: kind === "campaign" ? country : null,
+      p_country: kind === "hotel" ? null : country,
       p_city: kind === "hotel" ? city : null,
     });
     setBusy(false);
     if (error) return setError(friendlyError(error, lang));
-    router.replace(kind === "hotel" ? "/hotel/profile" : (takeNext() ?? "/campaign"));
+    router.replace(kind === "hotel" ? "/hotel/profile" : kind === "agency" ? "/agency/profile" : (takeNext() ?? "/campaign"));
   }
 
   return (
@@ -73,11 +74,21 @@ export default function Onboarding() {
               <b>{t("فندق", "Hotel")}</b>
               <span>{t("فندق في كربلاء أو النجف أو الكاظمية أو سامراء، أرسل عروضاً للحملات", "A hotel in Karbala, Najaf, Kadhimiya or Samarra sending offers to campaigns")}</span>
             </label>
+            <label className={`kind-card ${kind === "agency" ? "on" : ""}`}>
+              <input type="radio" name="kind" checked={kind === "agency"} onChange={() => setKind("agency")} />
+              <b>{t("مكتب حجوزات طيران", "Flight booking office")}</b>
+              <span>{t("أحجز تذاكر المجموعات، وأرسل عروض الطيران للحملات", "I book group tickets and send flight offers to campaigns")}</span>
+            </label>
           </div>
         </fieldset>
         <label className="field" htmlFor="name">
-          {kind === "hotel" ? t("اسم الفندق", "Hotel name") : t("اسم الحملة", "Campaign name")}
-          <input id="name" value={name} onChange={(e) => setName(e.target.value)} placeholder={kind === "hotel" ? t("مثال: فندق الروضة", "e.g. Al-Rawda Hotel") : t("مثال: حملة النور", "e.g. Al-Noor Campaign")} />
+          {kind === "hotel" ? t("اسم الفندق", "Hotel name") : kind === "agency" ? t("اسم المكتب", "Office name") : t("اسم الحملة", "Campaign name")}
+          <input
+            id="name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder={kind === "hotel" ? t("مثال: فندق الروضة", "e.g. Al-Rawda Hotel") : kind === "agency" ? t("مثال: مكتب السفر الذهبي", "e.g. Golden Travel") : t("مثال: حملة النور", "e.g. Al-Noor Campaign")}
+          />
         </label>
         {kind === "hotel" ? (
           <label className="field" htmlFor="city">
@@ -92,7 +103,7 @@ export default function Onboarding() {
           </label>
         ) : (
           <label className="field" htmlFor="country">
-            {t("دولة الحملة", "Campaign country")}
+            {kind === "agency" ? t("دولة المكتب", "Office country") : t("دولة الحملة", "Campaign country")}
             <select id="country" value={country} onChange={(e) => setCountry(e.target.value)}>
               {Object.entries(CAMPAIGN_COUNTRIES).map(([code, [ar, en]]) => (
                 <option key={code} value={code}>
@@ -110,9 +121,25 @@ export default function Onboarding() {
             )}
           </p>
         )}
+        {kind === "agency" && (
+          <p className="small muted">
+            {t(
+              "يراجع فريق حملتي ترخيص المكتب، ثم تبدأ طلبات طيران الحملات بالوصول إليك. التسجيل مجاني.",
+              "The Hamlaty team checks the office's licence, then campaigns' flight requests start reaching you. Joining is free.",
+            )}
+          </p>
+        )}
         <ErrorNote text={error} />
         <button className="btn" disabled={busy}>
-          {busy ? t("جارٍ الحفظ…", "Saving…") : kind === "hotel" ? t("متابعة كفندق", "Continue as a hotel") : kind === "campaign" ? t("متابعة كحملة", "Continue as a campaign") : t("متابعة", "Continue")}
+          {busy
+            ? t("جارٍ الحفظ…", "Saving…")
+            : kind === "hotel"
+              ? t("متابعة كفندق", "Continue as a hotel")
+              : kind === "agency"
+                ? t("متابعة كمكتب طيران", "Continue as a flight office")
+                : kind === "campaign"
+                  ? t("متابعة كحملة", "Continue as a campaign")
+                  : t("متابعة", "Continue")}
         </button>
       </form>
     </Shell>
