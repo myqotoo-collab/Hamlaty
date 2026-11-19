@@ -5,7 +5,7 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { PHONE_COUNTRIES } from "./format";
 
-export type NotifyKind = "new_request" | "offer_sent" | "offer_accepted" | "booking_confirmed" | "booking_cancelled" | "message";
+export type NotifyKind = "new_request" | "offer_sent" | "offer_accepted" | "fee_due" | "booking_confirmed" | "booking_cancelled" | "message";
 
 // With https:// every phone shows it as a link you can tap.
 const SITE = "https://hamlaty.co";
@@ -65,11 +65,12 @@ async function phoneFor(admin: SupabaseClient, orgId: string): Promise<{ phone: 
 }
 
 export const texts = {
-  new_request: (ref: string, pilgrims: number, offerId: string) =>
-    `حملتي: طلب مجموعة جديد ${ref} (${pilgrims} زائراً). أرسل عرضك: ${SITE}/hotel/offers/${offerId}`,
-  offer_sent: (ref: string, requestId: string) => `حملتي: وصلك عرض فندق جديد على طلبك ${ref}. قارن العروض: ${SITE}/campaign/requests/${requestId}`,
-  offer_accepted: (ref: string, bookingId: string) => `حملتي: تم اختيار عرضك على الطلب ${ref}. أكّد الحجز: ${SITE}/hotel/bookings/${bookingId}`,
-  booking_confirmed: (ref: string, bookingId: string) => `حملتي: أكّد الفندق حجزك ${ref}. التفاصيل: ${SITE}/campaign/bookings/${bookingId}`,
+  new_request: (ref: string, pilgrims: number, path: string) => `حملتي: طلب مجموعة جديد ${ref} (${pilgrims} زائراً). أرسل عرضك: ${SITE}${path}`,
+  offer_sent: (ref: string, requestId: string) => `حملتي: وصلك عرض جديد على طلبك ${ref}. قارن العروض: ${SITE}/campaign/requests/${requestId}`,
+  offer_accepted: (ref: string, path: string) => `حملتي: اختارت الحملة عرضك على الطلب ${ref}. أكّد الحجز: ${SITE}${path}`,
+  fee_due: (ref: string, fee: string, requestId: string) => `حملتي: أكّد مقدّم الخدمة حجزك ${ref}. ادفع رسوم حملتي ${fee} لتأكيده: ${SITE}/campaign/requests/${requestId}`,
+  booking_confirmed: (ref: string, path: string) => `حملتي: تأكّد الحجز ${ref}، وأصبحت بيانات التواصل ظاهرة: ${SITE}${path}`,
+  booking_cancelled: (ref: string, path: string) => `حملتي: أُلغي الحجز ${ref}. التفاصيل: ${SITE}${path}`,
 };
 
 /**

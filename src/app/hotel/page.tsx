@@ -89,7 +89,8 @@ export default function HotelHome() {
             if (!r) return null;
             const stays = [...r.stays].sort((a, b) => a.position - b.position);
             return (
-              <li key={o.id} className="req-row">
+              <li key={o.id}>
+                <Link href={`/hotel/offers/${o.id}`} className="req-row" style={{ textDecoration: "none", color: "inherit" }}>
                 <div className="row spread">
                   <b className="num">{r.ref}</b>
                   <span className={`chip ${o.status === "draft" ? "warn" : o.status === "accepted" ? "good" : "muted"}`}>{offerStatus(o.status, lang)}</span>
@@ -105,6 +106,7 @@ export default function HotelHome() {
                     {fmtDate(r.respond_by, lang)}
                   </span>
                 )}
+                </Link>
               </li>
             );
           })}

@@ -38,3 +38,16 @@ test("distance to the shrine", () => {
   assert.equal(distance(150, "ar"), "150 م");
   assert.equal(distance(1250, "en"), "1.3 km");
 });
+
+test("amounts typed by people → minor units and back", async () => {
+  const { toMinor, fromMinor, addDays } = await import("../src/lib/format");
+  assert.equal(toMinor("60", "USD"), 6000);
+  assert.equal(toMinor("1,250.5", "USD"), 125050);
+  assert.equal(toMinor("٧٥", "USD"), 7500);
+  assert.equal(toMinor("75000", "IQD"), 75000);
+  assert.equal(toMinor("12.5", "OMR"), 12500);
+  assert.equal(toMinor("0", "USD"), null);
+  assert.equal(toMinor("abc", "USD"), null);
+  assert.equal(fromMinor(125050, "USD"), "1250.5");
+  assert.equal(addDays("2027-02-27", 3), "2027-03-02");
+});

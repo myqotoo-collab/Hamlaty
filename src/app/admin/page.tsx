@@ -1,8 +1,9 @@
 "use client";
+import Link from "next/link";
 import { useCallback, useState } from "react";
 import { Shell, ErrorNote, Loading } from "@/components/Shell";
 import { AdminMfaGate } from "@/components/AdminMfaGate";
-import { friendlyError, supabase } from "@/lib/supabase";
+import { friendlyError, supabase, tell } from "@/lib/supabase";
 import { useMe } from "@/lib/useMe";
 import { useLang } from "@/lib/i18n";
 import { distance, fmtDate, money } from "@/lib/format";
@@ -64,7 +65,11 @@ export default function Admin() {
   const setStatus = (o: Row, status: Org["status"]) => act(o.id, () => supabase().from("organizations").update({ status }).eq("id", o.id));
   const verify = (o: Row) =>
     act(o.id, () => supabase().from(o.kind === "agency" ? "agency_profiles" : "hotel_profiles").update({ verified: true }).eq("org_id", o.id));
-  const feePaid = (f: FeeRow) => act(f.id, () => supabase().rpc("mark_fee_paid", { p_booking: f.id, p_reference: refs[f.id] ?? null }));
+  const feePaid = async (f: FeeRow) => {
+    await act(f.id, () => supabase().rpc("mark_fee_paid", { p_booking: f.id, p_reference: refs[f.id] ?? null }));
+    // Texts both sides that the booking is confirmed (the server checks the fee is really recorded).
+    await tell("fee_paid", f.id);
+  };
 
   const name = (id: string | null) => rows?.find((r) => r.id === id)?.name ?? "—";
   const providers = rows?.filter((r) => r.kind === "hotel" || r.kind === "agency") ?? [];
@@ -76,6 +81,9 @@ export default function Admin() {
       <div className="head">
         <span className="eyebrow">{t("فريق حملتي", "Hamlaty team")}</span>
         <h1>{t("الإدارة", "Admin")}</h1>
+        <p>
+          <Link href="/admin/guide">{t("إدارة دليل الزائر", "Manage the pilgrim's guide")}</Link>
+        </p>
       </div>
       <AdminMfaGate onReady={load}>
         <ErrorNote text={error} />

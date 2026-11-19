@@ -62,3 +62,34 @@ export function distance(m: number | null | undefined, lang: Lang = "ar"): strin
   const km = (m / 1000).toLocaleString("en-US", { maximumFractionDigits: 1 });
   return lang === "ar" ? `${km} كم` : `${km} km`;
 }
+
+/** What someone typed ("1,250.5", "١٢٥٠") → minor units for that currency; null if it is not a positive amount. */
+export function toMinor(input: string, currency = "USD"): number | null {
+  const s = toAsciiDigits(input).replace(/[,\s]/g, "").replace("٫", ".");
+  if (!/^\d+(\.\d+)?$/.test(s)) return null;
+  const v = Math.round(Number(s) * 10 ** (CURRENCY_DECIMALS[currency] ?? 2));
+  return v > 0 ? v : null;
+}
+
+/** Minor units → the plain number to show in an input ("1250.5"). */
+export const fromMinor = (minor: number | null | undefined, currency = "USD") =>
+  minor === null || minor === undefined ? "" : String(minor / 10 ** (CURRENCY_DECIMALS[currency] ?? 2));
+
+export const fmtDateTime = (iso: string | null | undefined, lang: Lang = "ar") =>
+  iso
+    ? new Date(iso).toLocaleString(lang === "ar" ? "ar-OM" : "en-GB", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" })
+    : "—";
+
+/** Today + n days as yyyy-mm-dd, for date inputs. */
+export function isoDay(addDays = 0): string {
+  const d = new Date();
+  d.setDate(d.getDate() + addDays);
+  return d.toISOString().slice(0, 10);
+}
+
+/** yyyy-mm-dd + n days. */
+export function addDays(day: string, n: number): string {
+  const d = new Date(day + "T00:00:00Z");
+  d.setUTCDate(d.getUTCDate() + n);
+  return d.toISOString().slice(0, 10);
+}

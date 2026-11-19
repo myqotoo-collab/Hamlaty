@@ -28,6 +28,7 @@ const NAV: Record<"campaign" | "hotel" | "agency" | "guest", NavLink[]> = {
   ],
   guest: [
     { href: "/", label: ["الرئيسية", "Home"], short: ["الرئيسية", "Home"], icon: "home" },
+    { href: "/guide", label: ["دليل الزائر", "Pilgrim's guide"], short: ["الدليل", "Guide"], icon: "list" },
     { href: "/login", label: ["دخول", "Sign in"], short: ["دخول", "Sign in"], icon: "key" },
   ],
 };
@@ -124,6 +125,7 @@ function SiteFooter() {
           <li><Link href="/login?as=campaign">{t("سجّل حملتك", "Register your campaign")}</Link></li>
           <li><Link href="/login?as=hotel">{t("سجّل فندقك", "List your hotel")}</Link></li>
           <li><Link href="/login?as=agency">{t("سجّل مكتب حجوزات الطيران", "List your flight office")}</Link></li>
+          <li><Link href="/guide">{t("دليل الزائر", "Pilgrim's guide")}</Link></li>
           <li><Link href="/legal">{t("المركز القانوني", "Legal Hub")}</Link></li>
           <li><Link href="/legal/terms">{t("شروط الاستخدام", "Terms of Use")}</Link></li>
           <li><Link href="/legal/privacy">{t("سياسة الخصوصية", "Privacy Policy")}</Link></li>

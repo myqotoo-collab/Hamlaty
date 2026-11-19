@@ -60,3 +60,10 @@ export async function bearer(): Promise<Record<string, string>> {
   if (!data.session || (data.session.expires_at ?? 0) * 1000 < Date.now() + 60_000) ({ data } = await sb.auth.refreshSession());
   return data.session ? { Authorization: `Bearer ${data.session.access_token}` } : {};
 }
+
+/** Asks the server to text the other party about a step that just succeeded. Never throws: SMS is a courtesy. */
+export async function tell(event: string, id: string): Promise<void> {
+  try {
+    await fetch("/api/notify", { method: "POST", headers: { "Content-Type": "application/json", ...(await bearer()) }, body: JSON.stringify({ event, id }) });
+  } catch {}
+}

@@ -112,3 +112,44 @@ const BOOKING_STATUS: Record<string, [string, string]> = {
   cancelled: ["ملغى", "Cancelled"],
 };
 export const bookingStatus = (s: string, lang: Lang) => pick(BOOKING_STATUS[s], lang, s);
+
+/** Beds per room type, to check that the rooms fit the pilgrims. */
+export const ROOM_BEDS: Record<RoomType, number> = { single: 1, double: 2, triple: 3, quad: 4 };
+export const ROOM_TYPES: RoomType[] = ["single", "double", "triple", "quad"];
+
+/** Airports campaigns usually fly from, and the Iraqi airports for ziyarat. */
+export const FROM_AIRPORTS: Record<string, [string, string]> = {
+  MCT: ["مسقط", "Muscat"],
+  SLL: ["صلالة", "Salalah"],
+  SOH: ["صحار", "Sohar"],
+  KWI: ["الكويت", "Kuwait"],
+  BAH: ["البحرين", "Bahrain"],
+  DOH: ["الدوحة", "Doha"],
+  DXB: ["دبي", "Dubai"],
+  AUH: ["أبوظبي", "Abu Dhabi"],
+  SHJ: ["الشارقة", "Sharjah"],
+  RUH: ["الرياض", "Riyadh"],
+  DMM: ["الدمام", "Dammam"],
+  BEY: ["بيروت", "Beirut"],
+};
+export const TO_AIRPORTS: Record<string, [string, string]> = {
+  NJF: ["النجف", "Najaf"],
+  BGW: ["بغداد", "Baghdad"],
+  BSR: ["البصرة", "Basra"],
+};
+export const airportName = (code: string, lang: Lang) => {
+  const pair = FROM_AIRPORTS[code] ?? TO_AIRPORTS[code];
+  return pair ? `${pair[lang === "ar" ? 0 : 1]} (${code})` : code;
+};
+
+export const OFFER_CURRENCIES = ["USD", "IQD", "OMR", "KWD", "BHD", "SAR", "AED", "QAR"] as const;
+
+const PLACE_CATEGORIES: Record<string, [string, string]> = {
+  shrine: ["المراقد", "Shrines"],
+  site: ["مواقع الزيارة", "Ziyarat sites"],
+  market: ["الأسواق", "Markets"],
+  restaurant: ["المطاعم", "Restaurants"],
+  program: ["برامج الزيارات", "Ziyarat programmes"],
+};
+export const PLACE_CATEGORY_KEYS = Object.keys(PLACE_CATEGORIES);
+export const placeCategory = (c: string, lang: Lang) => pick(PLACE_CATEGORIES[c], lang, c);

@@ -2,7 +2,7 @@
 -- request with cities and flights → offers → booking → fee paid → contacts → cancel → pilgrim registration.
 -- Each check raises an exception when a rule is broken; success prints PASS lines.
 --   createdb hamlaty_test && psql -d hamlaty_test -f supabase/tests/_supabase_stub.sql \
---     -f supabase/migrations/0001_init.sql -f supabase/migrations/0002_fees_and_flights.sql -f supabase/tests/rls_test.sql
+--     -f supabase/migrations/0001_init.sql -f supabase/migrations/0002_fees_and_flights.sql -f supabase/migrations/0003_guide_and_notices.sql -f supabase/tests/rls_test.sql
 \set ON_ERROR_STOP 1
 \pset tuples_only on
 begin;
@@ -249,6 +249,20 @@ select pg_temp.check((select count(*) from pilgrims) = 0 and (select count(*) fr
 select pg_temp.as_user('00000000-0000-0000-0000-0000000000f2');
 select pg_temp.check((select count(*) from pilgrims) = 0, 'flight offices cannot see pilgrims');
 select pg_temp.check((select count(*) from audit_log) = 0, 'only admins read the audit log');
+
+-- ── The pilgrims' guide ──
+select pg_temp.check((select count(*) >= 7 from places), 'the guide has the main shrines');
+select pg_temp.refused($$insert into places (city, category, name_ar) values ('كربلاء', 'market', 'سوق')$$, 'row-level security', 'only Hamlaty adds guide entries');
+select pg_temp.check((select value ? 'ar' from app_settings where key = 'fee_payment_instructions'), 'campaigns can read how to pay the fee');
+select pg_temp.as_user('00000000-0000-0000-0000-0000000000ad', 'aal2');
+insert into places (city, category, name_ar, active) values ('النجف', 'market', 'سوق تجريبي مخفي', false);
+reset role;
+set local role anon;
+select pg_temp.as_user('');
+select pg_temp.check((select count(*) >= 7 and bool_and(active) from places), 'visitors read the guide, never hidden entries');
+select pg_temp.refused($$update places set active = false$$, 'permission denied', 'visitors cannot change the guide');
+reset role;
+set local role authenticated;
 
 select 'ALL CHECKS PASSED';
 rollback;

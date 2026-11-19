@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Shell, ErrorNote, Loading } from "@/components/Shell";
 import { friendlyError, supabase } from "@/lib/supabase";
@@ -50,9 +51,9 @@ export default function CampaignHome() {
             <b>{t("طلب مجموعة جديد", "New group request")}</b>
             <span className="small muted">{t("الزوار، المدن، الليالي، الغرف والوجبات.", "Pilgrims, cities, nights, rooms and meals.")}</span>
           </div>
-          <span className="btn disabled" aria-disabled="true">
-            {t("قريباً", "Coming soon")}
-          </span>
+          <Link href="/campaign/new" className="btn">
+            {t("+ طلب جديد", "+ New request")}
+          </Link>
         </div>
       </div>
 
@@ -66,7 +67,8 @@ export default function CampaignHome() {
           {rows.map((r) => {
             const stays = [...r.stays].sort((a, b) => a.position - b.position);
             return (
-              <li key={r.id} className="req-row">
+              <li key={r.id}>
+                <Link href={`/campaign/requests/${r.id}`} className="req-row" style={{ textDecoration: "none", color: "inherit" }}>
                 <div className="row spread">
                   <b className="num">{r.ref}</b>
                   <span className={`chip ${r.status === "booked" ? "good" : r.status === "open" ? "info" : "muted"}`}>{requestStatus(r.status, lang)}</span>
@@ -76,6 +78,7 @@ export default function CampaignHome() {
                   <span>{stays.map((s) => `${cityName(s.city, lang)} (${s.nights})`).join(lang === "ar" ? " ← " : " → ")}</span>
                   {stays[0] && <span>{fmtDate(stays[0].check_in, lang)}</span>}
                 </div>
+                </Link>
               </li>
             );
           })}
