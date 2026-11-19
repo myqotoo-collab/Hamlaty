@@ -40,6 +40,7 @@
 1. `supabase/migrations/0001_init.sql`: الحسابات، ملفات الفنادق، الطلبات والإقامات، العروض وأسطرها، الحجوزات، الرسائل، الرحلات والزوار.
 2. `supabase/migrations/0002_fees_and_flights.sql`: الرسوم الثابتة بدل العمولة، ومكاتب الطيران (الملفات، رحلات الطلب، عروض الطيران وأسطرها، حجوزات الطيران).
 3. `supabase/migrations/0003_guide_and_notices.sql`: دليل الزائر (جدول `places` مع المراقد الرئيسية)، وتعليمات دفع الرسوم، ورسالة «الرسوم مستحقة».
+4. `supabase/migrations/0004_campaign_deposit_wording.sql`: تسمية المبلغ عند الحملة «عربون تأكيد الحجز» في تعليمات الدفع (لا تظهر الرسوم للحملات).
 
 بعد الملفات الثلاثة: 20 جدولاً، 37 دالة، 4 إعدادات.
 
@@ -86,7 +87,7 @@ npm test   # أرقام الجوال، العملة، المسافة
 createdb hamlaty_test
 psql -d hamlaty_test -f supabase/tests/_supabase_stub.sql -f supabase/migrations/0001_init.sql \
   -f supabase/migrations/0002_fees_and_flights.sql \
-  -f supabase/migrations/0003_guide_and_notices.sql -f supabase/tests/rls_test.sql
+  -f supabase/migrations/0003_guide_and_notices.sql -f supabase/migrations/0004_campaign_deposit_wording.sql -f supabase/tests/rls_test.sql
 ```
 
 ## التالي

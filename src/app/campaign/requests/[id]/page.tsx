@@ -25,7 +25,11 @@ interface FlightOffer {
 interface Booking { id: string; ref: string; kind: "hotel" | "flight"; status: string; offer_id: string | null; flight_offer_id: string | null; currency: string; total_minor: number; units: number; fee_minor: number; fee_currency: string }
 interface Contact { provider_name: string; provider_phone: string | null; provider_address: string | null; provider_city: string | null }
 
-/** The campaign compares offers for its request, books, pays the Hamlaty fee, then sees the provider's details. */
+/**
+ * The campaign compares offers for its request, books, pays the confirmation deposit through Hamlaty, then sees the
+ * provider's details. Campaigns never see a "Hamlaty fee": the amount is part of the provider's price (the provider
+ * bears it, per the Hotel and Office Terms), so it is shown as the confirmation deposit deducted from what they owe.
+ */
 export default function RequestPage() {
   const { id } = useParams<{ id: string }>();
   const { t, lang } = useLang();
@@ -234,8 +238,8 @@ export default function RequestPage() {
                   <div className="row small muted">
                     <span>{t("قيمة الحجز ", "Booking value ")}{money(b.total_minor, b.currency, lang)}</span>
                     <span>
-                      {t("رسوم حملتي ", "Hamlaty fee ")}
-                      {money(b.fee_minor, b.fee_currency, lang)} ({b.kind === "hotel" ? t(`${b.units} زائراً × 1$`, `${b.units} pilgrims × $1`) : t(`${b.units} تذكرة × 3$`, `${b.units} tickets × $3`)})
+                      {t("عربون التأكيد عبر حملتي ", "Confirmation deposit via Hamlaty ")}
+                      {money(b.fee_minor, b.fee_currency, lang)}
                     </span>
                   </div>
                   {b.status === "pending_hotel" && (
@@ -243,9 +247,13 @@ export default function RequestPage() {
                   )}
                   {b.status === "awaiting_payment" && (
                     <div className="notice">
-                      <b>{t(`ادفع رسوم حملتي ${money(b.fee_minor, b.fee_currency, lang)} لتأكيد الحجز`, `Pay the Hamlaty fee of ${money(b.fee_minor, b.fee_currency, lang)} to confirm`)}</b>
+                      <b>{t(`ادفع عربون التأكيد ${money(b.fee_minor, b.fee_currency, lang)} لتأكيد الحجز`, `Pay the confirmation deposit of ${money(b.fee_minor, b.fee_currency, lang)} to confirm`)}</b>
                       <span className="small">{howToPay ? L(howToPay.ar, howToPay.en) : ""}</span>
-                      <span className="small">{t("الرسوم جزء من العربون: ادفع الباقي للفندق أو المكتب بعد التأكيد.", "The fee is part of the deposit: pay the rest to the hotel or office after confirmation.")}</span>
+                      <span className="small">
+                        {b.kind === "hotel"
+                          ? t("يُخصم هذا المبلغ من المستحق للفندق، فلا تدفع أي مبلغ إضافي. ادفع الباقي للفندق مباشرة بعد التأكيد.", "This amount is deducted from what you owe the hotel, so you pay nothing extra. Pay the rest to the hotel directly after confirmation.")
+                          : t("يُخصم هذا المبلغ من المستحق للمكتب، فلا تدفع أي مبلغ إضافي. ادفع الباقي للمكتب مباشرة بعد التأكيد.", "This amount is deducted from what you owe the office, so you pay nothing extra. Pay the rest to the office directly after confirmation.")}
+                      </span>
                     </div>
                   )}
                   {c && (

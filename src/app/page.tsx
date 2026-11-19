@@ -66,7 +66,7 @@ export default function Home() {
           <ul className="trust">
             <li>{t("طلبات مجموعات حقيقية من حملات الخليج ولبنان، تصلك على الجوال.", "Real group requests from Gulf and Lebanese campaigns, straight to your phone.")}</li>
             <li>{t("التسجيل وإرسال العروض مجاناً. لا تدفع شيئاً مقدماً.", "Joining and sending offers are free. You pay nothing in advance.")}</li>
-            <li>{t("رسوم حملتي دولار واحد عن كل زائر، تُقتطع من العربون عند الحجز فقط.", "Hamlaty's fee is $1 per pilgrim, taken from the deposit only when a booking is made.")}</li>
+            <li>{t("تدفع فقط حين يتم حجز فعلي، ضمن العربون. التفاصيل في شروط الفنادق.", "You pay only when a real booking happens, within the deposit. Details in the Hotel Terms.")}</li>
           </ul>
           <Link href="/login?as=hotel" className="btn teal">
             {t("سجّل فندقك مجاناً", "List your hotel for free")}
@@ -77,7 +77,7 @@ export default function Home() {
           <ul className="trust">
             <li>{t("طلبات تذاكر مجموعات جاهزة: المسار والتاريخ وعدد المقاعد.", "Ready group ticket requests: route, dates and number of seats.")}</li>
             <li>{t("التسجيل وإرسال العروض مجاناً. لا تدفع شيئاً مقدماً.", "Joining and sending offers are free. You pay nothing in advance.")}</li>
-            <li>{t("رسوم حملتي 3 دولارات عن كل تذكرة، تُقتطع من العربون عند الحجز فقط.", "Hamlaty's fee is $3 per ticket, taken from the deposit only when a booking is made.")}</li>
+            <li>{t("تدفع فقط حين يتم حجز فعلي، ضمن العربون. التفاصيل في شروط مكاتب الطيران.", "You pay only when a real booking happens, within the deposit. Details in the Flight Office Terms.")}</li>
           </ul>
           <Link href="/login?as=agency" className="btn teal">
             {t("سجّل مكتبك مجاناً", "List your office for free")}

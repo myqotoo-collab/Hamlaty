@@ -63,7 +63,7 @@ export function BookingPanel({ booking, onChange }: { booking: ProviderBooking; 
       <p className="small muted" style={{ margin: 0 }}>
         {t("قيمة الحجز ", "Booking value ")}
         {money(booking.total_minor, booking.currency, lang)} · {t("رسوم حملتي ", "Hamlaty fee ")}
-        {money(booking.fee_minor, booking.fee_currency, lang)} {t("(من العربون)", "(from the deposit)")}
+        {money(booking.fee_minor, booking.fee_currency, lang)} {t("(تدفعها الحملة عربونَ تأكيد عبر حملتي، وتُخصم مما تدفعه لك)", "(the campaign pays it as a confirmation deposit via Hamlaty, deducted from what it pays you)")}
       </p>
 
       {booking.status === "pending_hotel" && (
@@ -84,7 +84,7 @@ export function BookingPanel({ booking, onChange }: { booking: ProviderBooking; 
       )}
       {booking.status === "awaiting_payment" && (
         <p className="small" style={{ margin: 0 }}>
-          {t("بانتظار دفع الحملة رسوم حملتي. عند الدفع يتأكد الحجز وتظهر لك بيانات الحملة، وستصلك رسالة.", "Waiting for the campaign to pay the Hamlaty fee. Once paid, the booking is confirmed, you'll see the campaign's details, and we'll text you.")}
+          {t("بانتظار دفع الحملة عربون التأكيد عبر حملتي. عند الدفع يتأكد الحجز وتظهر لك بيانات الحملة، وستصلك رسالة.", "Waiting for the campaign to pay the confirmation deposit via Hamlaty. Once paid, the booking is confirmed, you'll see the campaign's details, and we'll text you.")}
         </p>
       )}
       {contact && (

@@ -2,7 +2,7 @@
 -- request with cities and flights → offers → booking → fee paid → contacts → cancel → pilgrim registration.
 -- Each check raises an exception when a rule is broken; success prints PASS lines.
 --   createdb hamlaty_test && psql -d hamlaty_test -f supabase/tests/_supabase_stub.sql \
---     -f supabase/migrations/0001_init.sql -f supabase/migrations/0002_fees_and_flights.sql -f supabase/migrations/0003_guide_and_notices.sql -f supabase/tests/rls_test.sql
+--     -f supabase/migrations/0001_init.sql -f supabase/migrations/0002_fees_and_flights.sql -f supabase/migrations/0003_guide_and_notices.sql -f supabase/migrations/0004_campaign_deposit_wording.sql -f supabase/tests/rls_test.sql
 \set ON_ERROR_STOP 1
 \pset tuples_only on
 begin;

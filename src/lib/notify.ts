@@ -68,7 +68,8 @@ export const texts = {
   new_request: (ref: string, pilgrims: number, path: string) => `حملتي: طلب مجموعة جديد ${ref} (${pilgrims} زائراً). أرسل عرضك: ${SITE}${path}`,
   offer_sent: (ref: string, requestId: string) => `حملتي: وصلك عرض جديد على طلبك ${ref}. قارن العروض: ${SITE}/campaign/requests/${requestId}`,
   offer_accepted: (ref: string, path: string) => `حملتي: اختارت الحملة عرضك على الطلب ${ref}. أكّد الحجز: ${SITE}${path}`,
-  fee_due: (ref: string, fee: string, requestId: string) => `حملتي: أكّد مقدّم الخدمة حجزك ${ref}. ادفع رسوم حملتي ${fee} لتأكيده: ${SITE}/campaign/requests/${requestId}`,
+  fee_due: (ref: string, fee: string, requestId: string) =>
+    `حملتي: تم تأكيد توفّر حجزك ${ref}. ادفع عربون التأكيد ${fee} (يُخصم من المبلغ المستحق) لتأكيده: ${SITE}/campaign/requests/${requestId}`,
   booking_confirmed: (ref: string, path: string) => `حملتي: تأكّد الحجز ${ref}، وأصبحت بيانات التواصل ظاهرة: ${SITE}${path}`,
   booking_cancelled: (ref: string, path: string) => `حملتي: أُلغي الحجز ${ref}. التفاصيل: ${SITE}${path}`,
 };

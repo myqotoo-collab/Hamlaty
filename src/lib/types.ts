@@ -106,7 +106,7 @@ export const offerStatus = (s: string, lang: Lang) => pick(OFFER_STATUS[s], lang
 
 const BOOKING_STATUS: Record<string, [string, string]> = {
   pending_hotel: ["بانتظار تأكيد الفندق أو المكتب", "Awaiting provider confirmation"],
-  awaiting_payment: ["بانتظار رسوم حملتي", "Awaiting Hamlaty fee"],
+  awaiting_payment: ["بانتظار عربون التأكيد", "Awaiting confirmation deposit"],
   confirmed: ["مؤكد", "Confirmed"],
   completed: ["مكتمل", "Completed"],
   cancelled: ["ملغى", "Cancelled"],

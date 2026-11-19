@@ -2,7 +2,7 @@
 // FIRST DRAFTS written from how the platform works. They must be reviewed by a lawyer (Oman, where Hamlaty is run,
 // and Iraq, where the hotels are) before launch.
 
-export const LEGAL_UPDATED = "2026-11-18";
+export const LEGAL_UPDATED = "2026-11-20";
 export const CONTACT = { support: "support@hamlaty.co", privacy: "privacy@hamlaty.co" };
 
 export interface Clause {
@@ -63,12 +63,12 @@ export const LEGAL_DOCS: LegalDoc[] = [
         hEn: "3. Offers and bookings",
         ar: [
           "تحسب المنصة إجمالي العرض من أسعار الغرف أو المقاعد التي يدخلها مقدّم الخدمة، ولا يمكن تعديل العرض بعد إرساله.",
-          "يصبح الحجز مؤكداً بعد أن يؤكده مقدّم الخدمة وتُدفع رسوم حملتي. قبل ذلك لا تظهر هوية أي طرف ولا بيانات التواصل، وتُخفى أرقام الهواتف والروابط في الرسائل.",
+          "يصبح الحجز مؤكداً بعد أن يؤكده مقدّم الخدمة ويُدفع عربون التأكيد عبر حملتي. قبل ذلك لا تظهر هوية أي طرف ولا بيانات التواصل، وتُخفى أرقام الهواتف والروابط في الرسائل.",
           "الحجز المؤكد ملزم للطرفين، وتخضع أي تغييرات أو إلغاءات لـ«سياسة الإلغاء».",
         ],
         en: [
           "The platform computes the offer total from the room or seat prices the Provider enters, and an offer cannot be changed once sent.",
-          "A booking is confirmed once the Provider confirms it and Hamlaty's fee is paid. Until then neither side's identity or contact details are shown, and phone numbers and links in messages are hidden.",
+          "A booking is confirmed once the Provider confirms it and the confirmation deposit is paid through Hamlaty. Until then neither side's identity or contact details are shown, and phone numbers and links in messages are hidden.",
           "A confirmed booking binds both sides; changes and cancellations follow the Cancellation Policy.",
         ],
       },
@@ -76,14 +76,14 @@ export const LEGAL_DOCS: LegalDoc[] = [
         hAr: "4. الرسوم",
         hEn: "4. Fees",
         ar: [
-          "استخدام المنصة مجاني للحملات، والتسجيل وإرسال العروض مجاني لمقدّمي الخدمة. لا يُدفع أي مبلغ مقدماً.",
-          "رسوم حملتي: دولار أمريكي واحد عن كل زائر لكل فندق يُحجز، وثلاثة دولارات عن كل تذكرة طيران (تذكرة الذهاب والعودة تذكرة واحدة).",
-          "الرسوم جزء من عربون الحجز: تدفعها الحملة لحملتي عند تأكيد مقدّم الخدمة، ويُحتسب المبلغ المدفوع لحملتي من العربون المستحق لمقدّم الخدمة.",
+          "استخدام المنصة مجاني للحملات، ولا تتحمل الحملة أي رسوم. التسجيل وإرسال العروض مجاني لمقدّمي الخدمة، ولا يُدفع أي مبلغ مقدماً.",
+          "عند تأكيد مقدّم الخدمة للحجز، تدفع الحملة «عربون التأكيد» عبر حملتي، وهو جزء من سعر الحجز يُخصم من المبلغ المستحق لمقدّم الخدمة، فلا تدفع الحملة أي مبلغ إضافي.",
+          "رسوم مقدّمي الخدمة لحملتي مبيّنة في «شروط الفنادق» و«شروط مكاتب الطيران»، ويتحملها مقدّم الخدمة من سعره.",
         ],
         en: [
-          "Using the platform is free for Campaigns, and joining and sending offers are free for Providers. Nothing is paid in advance.",
-          "Hamlaty's fees: one US dollar per pilgrim for each hotel booked, and three US dollars per flight ticket (a return ticket is one ticket).",
-          "The fee is part of the booking deposit: the Campaign pays it to Hamlaty once the Provider confirms, and the amount paid to Hamlaty counts towards the deposit owed to the Provider.",
+          "Using the platform is free for Campaigns, which bear no fees. Joining and sending offers are free for Providers, and nothing is paid in advance.",
+          "Once the Provider confirms a booking, the Campaign pays the “confirmation deposit” through Hamlaty. It is part of the booking price and is deducted from the amount owed to the Provider, so the Campaign pays nothing extra.",
+          "Providers' fees to Hamlaty are set out in the Hotel Terms and the Flight Office Terms, and are borne by the Provider out of its price.",
         ],
       },
       {
@@ -133,13 +133,13 @@ export const LEGAL_DOCS: LegalDoc[] = [
         hEn: "2. Fees",
         ar: [
           "التسجيل وإرسال العروض مجاني، ولا يدفع الفندق أي مبلغ مقدماً.",
-          "رسوم حملتي دولار أمريكي واحد عن كل زائر في الحجز. تدفعها الحملة لحملتي من عربون الحجز، ويقبل الفندق احتساب هذا المبلغ جزءاً من العربون المستحق له.",
-          "لا يُعتبر الحجز مؤكداً، ولا تظهر بيانات الحملة، قبل دفع الرسوم.",
+          "رسوم حملتي دولار أمريكي واحد عن كل زائر في الحجز، يتحملها الفندق من سعره. تدفعها الحملة لحملتي «عربونَ تأكيد»، ويخصمها الفندق من المبلغ المستحق له على الحملة.",
+          "لا يُعتبر الحجز مؤكداً، ولا تظهر بيانات الحملة، قبل دفع عربون التأكيد.",
         ],
         en: [
           "Joining and sending offers are free, and the Hotel pays nothing in advance.",
-          "Hamlaty's fee is one US dollar per pilgrim in the booking. The Campaign pays it to Hamlaty out of the booking deposit, and the Hotel accepts that amount as part of the deposit owed to it.",
-          "A booking is not confirmed, and the Campaign's details are not shown, until the fee is paid.",
+          "Hamlaty's fee is one US dollar per pilgrim in the booking, borne by the Hotel out of its price. The Campaign pays it to Hamlaty as a “confirmation deposit”, and the Hotel deducts it from the amount the Campaign owes it.",
+          "A booking is not confirmed, and the Campaign's details are not shown, until the confirmation deposit is paid.",
         ],
       },
       {
@@ -187,13 +187,13 @@ export const LEGAL_DOCS: LegalDoc[] = [
         hEn: "2. Fees",
         ar: [
           "التسجيل وإرسال العروض مجاني، ولا يدفع المكتب أي مبلغ مقدماً.",
-          "رسوم حملتي ثلاثة دولارات أمريكية عن كل تذكرة في الحجز، وتذكرة الذهاب والعودة تذكرة واحدة. تدفعها الحملة لحملتي من عربون الحجز، ويقبل المكتب احتسابها جزءاً من العربون المستحق له.",
-          "لا يُعتبر الحجز مؤكداً، ولا تظهر بيانات الحملة، قبل دفع الرسوم.",
+          "رسوم حملتي ثلاثة دولارات أمريكية عن كل تذكرة في الحجز، وتذكرة الذهاب والعودة تذكرة واحدة، يتحملها المكتب من سعره. تدفعها الحملة لحملتي «عربونَ تأكيد»، ويخصمها المكتب من المبلغ المستحق له على الحملة.",
+          "لا يُعتبر الحجز مؤكداً، ولا تظهر بيانات الحملة، قبل دفع عربون التأكيد.",
         ],
         en: [
           "Joining and sending offers are free, and the Office pays nothing in advance.",
-          "Hamlaty's fee is three US dollars per ticket in the booking, a return ticket counting as one. The Campaign pays it to Hamlaty out of the booking deposit, and the Office accepts it as part of the deposit owed to it.",
-          "A booking is not confirmed, and the Campaign's details are not shown, until the fee is paid.",
+          "Hamlaty's fee is three US dollars per ticket in the booking, a return ticket counting as one, borne by the Office out of its price. The Campaign pays it to Hamlaty as a “confirmation deposit”, and the Office deducts it from the amount the Campaign owes it.",
+          "A booking is not confirmed, and the Campaign's details are not shown, until the confirmation deposit is paid.",
         ],
       },
       {
@@ -230,19 +230,19 @@ export const LEGAL_DOCS: LegalDoc[] = [
         ar: [
           "يستطيع أي طرف إلغاء الحجز من المنصة قبل موعد الوصول أو السفر، ويُعاد فتح طلب الحملة لتختار مقدّم خدمة آخر.",
           "تُطبّق شروط الإلغاء المكتوبة في عرض مقدّم الخدمة، وشروط شركة الطيران، بين الطرفين مباشرة.",
-          "رسوم حملتي لا تُسترد بعد تأكيد الحجز، إلا إذا ألغى مقدّم الخدمة الحجز أو تعذّر تنفيذه لظرف قاهر.",
+          "عربون التأكيد المدفوع عبر حملتي يُحتسب من سعر الحجز. إذا ألغى مقدّم الخدمة الحجز، أو تعذّر تنفيذه لظرف قاهر، يُعاد إلى الحملة.",
         ],
         en: [
           "Either side can cancel the booking on the platform before arrival or travel, and the Campaign's request reopens so it can choose another Provider.",
           "Any cancellation terms written in the Provider's offer, and the airline's fare rules, apply between the two sides directly.",
-          "Hamlaty's fee is not refunded once the booking is confirmed, unless the Provider cancels it or force majeure prevents it.",
+          "The confirmation deposit paid through Hamlaty counts towards the booking price. If the Provider cancels the booking, or force majeure prevents it, it is returned to the Campaign.",
         ],
       },
       {
         hAr: "2. الظروف القاهرة",
         hEn: "2. Force majeure",
-        ar: ["عند إغلاق الحدود أو المطارات أو صدور قرار رسمي يمنع السفر، يُلغى الحجز وتُعاد رسوم حملتي إلى الحملة."],
-        en: ["If borders or airports close or an official decision prevents travel, the booking is cancelled and Hamlaty's fee is returned to the Campaign."],
+        ar: ["عند إغلاق الحدود أو المطارات أو صدور قرار رسمي يمنع السفر، يُلغى الحجز ويُعاد عربون التأكيد إلى الحملة."],
+        en: ["If borders or airports close or an official decision prevents travel, the booking is cancelled and the confirmation deposit is returned to the Campaign."],
       },
     ],
   },
@@ -315,8 +315,8 @@ export const LEGAL_DOCS: LegalDoc[] = [
       {
         hAr: "2. العملة",
         hEn: "2. Currency",
-        ar: ["تُعرض الأسعار بعملة عرض مقدّم الخدمة. رسوم حملتي بالدولار الأمريكي، وباقي العربون والسعر يُدفع بين الحملة ومقدّم الخدمة مباشرة."],
-        en: ["Prices are shown in the currency of the Provider's offer. Hamlaty's fees are in US dollars; the rest of the deposit and the price are paid between the Campaign and the Provider directly."],
+        ar: ["تُعرض الأسعار بعملة عرض مقدّم الخدمة. عربون التأكيد عبر حملتي بالدولار الأمريكي، وباقي السعر يُدفع بين الحملة ومقدّم الخدمة مباشرة."],
+        en: ["Prices are shown in the currency of the Provider's offer. The confirmation deposit through Hamlaty is in US dollars; the rest of the price is paid between the Campaign and the Provider directly."],
       },
     ],
   },
